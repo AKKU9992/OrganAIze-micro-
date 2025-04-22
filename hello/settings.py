@@ -27,12 +27,13 @@ SECRET_KEY = 'django-insecure-oip@*8j!5*3i!+fn)l5(d5&y9^*ey&h8@!r_3+p1trpl$nqj_c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['akshat.com',"127.0.0.1"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    
     'home.apps.HomeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
