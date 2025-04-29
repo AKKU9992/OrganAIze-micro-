@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}contact{% endblock title %}
-{% block body %}<div class="container-fluid  py-10 px-10 my-4" >
+{% block body %}
+<div class="container-fluid  py-10 px-10 my-4" >
     <h1 class="text-center">Contact Us</h1>
     <form method="post" action="/contact">
         {% csrf_token %}

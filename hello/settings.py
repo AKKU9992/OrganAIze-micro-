@@ -13,6 +13,14 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os 
 from django.contrib.messages import constants as messages
+import requests
+# settings.py
+
+# settings.py
+
+GEMINI_API_KEY = 'AIzaSyD3_uag_gmdRVvwL3sx4jXLUrBZbgMQcAw'
+GEMINI_API_ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent'
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
