@@ -18,7 +18,7 @@ $(document).ready(function () {
 </head>
 <body> 
 
-<div class="navbar-fixed ">
+<div class="navbar ">
 <nav>
 <div class="nav-wrapper deep-purple darken-3">
   <a href="" class="brand-logo ml-2" style="margin-left:10px;"> Todo</a>
@@ -46,9 +46,12 @@ $(document).ready(function () {
               <span class="card-title">Enter Today's Tasks:</span>
               <form action="{% url 'add' %}" method="POST">
                 {% csrf_token %}
-                <input type="text"placeholder="Enter a Todo" name="todo">
-                <input type="submit" value="Add" name="" id="" class="btn deep-purple accent-4">
+                <input type="text" placeholder="Enter a Todo" name="todo" required>
+                <input type="number" placeholder="Time in minutes" name="duration_minutes" min="1" required>
+                
+                <input type="submit" value="Add" class="btn deep-purple accent-4">
             </form>
+            
             
             </div>
                 <div class="card horizontal deep-purple accent-3">
@@ -58,6 +61,7 @@ $(document).ready(function () {
                         <form action="/delete/{{ items.id }}/" method="post">
                             {% csrf_token %}
                             <p>{{ items.content }}</p><br>
+                            <p>Time Left: {{ items.time_left }} minute{{ items.time_left|pluralize }}</p>
                             <input type="submit" value="Delete" class="btn red accent-3">
                             <hr class="divider">
                         </form><br>

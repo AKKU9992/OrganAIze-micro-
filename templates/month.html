@@ -19,7 +19,7 @@ $(document).ready(function () {
 </head>
 <body> 
 
-<div class="navbar-fixed ">
+<div class="navbar ">
 <nav>
 <div class="nav-wrapper deep-purple darken-3">
   <a href="" class="brand-logo ml-2" style="margin-left:10px;"> Todo</a>
@@ -47,10 +47,11 @@ $(document).ready(function () {
               <span class="card-title">Enter Monthly Tasks:</span>
               <form action="{% url 'addmonth' %}" method="POST">
                 {% csrf_token %}
-                <input type="text"placeholder="Enter a Todo" name="todomonth">
+                <input type="text" placeholder="Enter a Month Task" name="content_month" required>
+                <input type="text" placeholder="Task Description" name="task" required>
+                <input type="number" placeholder="Time in days" name="duration_days" min="1" required>
                 <input type="submit" value="Add" class="btn deep-purple accent-4">
             </form>
-            
             </div>
                 <div class="card horizontal deep-purple accent-3">
                   <div class="card-stacked ">
@@ -59,8 +60,11 @@ $(document).ready(function () {
                         <form action="/deletemonth/{{ items_month.id }}/" method="post">
                             {% csrf_token %}
                             <p>{{ items_month.content_month }}</p><br>
+                            <p>Time Left: {{ items_month.days_left }} day{{ items_month.days_left|pluralize }}</p>
                             <input type="submit" value="Delete" class="btn red accent-3">
+                           
                             <hr class="divider">
+                           
                         </form><br>
                     {% endfor %}
                     </div>

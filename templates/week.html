@@ -19,7 +19,7 @@ $(document).ready(function () {
 </head>
 <body> 
 
-<div class="navbar-fixed ">
+<div class="navbar ">
 <nav>
 <div class="nav-wrapper deep-purple darken-3">
   <a href="" class="brand-logo ml-2" style="margin-left:10px;"> Todo</a>
@@ -47,7 +47,9 @@ $(document).ready(function () {
               <span class="card-title">Enter Weekly Tasks:</span>
               <form action="{% url 'addweek' %}" method="POST">
                 {% csrf_token %}
-                <input type="text"placeholder="Enter a Todo" name="todoweek">
+                <input type="text" placeholder="Enter a Task for the Week" name="content_week" required>
+                <input type="text" placeholder="Enter a Task Description" name="task" required>
+                <input type="number" placeholder="Time in days" name="duration_days" min="1" required>
                 <input type="submit" value="Add" class="btn deep-purple accent-4">
             </form>
             
@@ -59,6 +61,7 @@ $(document).ready(function () {
                         <form action="/deleteweek/{{ items_week.id }}/" method="post">
                             {% csrf_token %}
                             <p>{{ items_week.content_week }}</p><br>
+                            <p>Time Left: {{ items_week.days_left }} day{{ items_week.days_left|pluralize }}</p>
                             <input type="submit" value="Delete" class="btn red accent-3">
                             <hr class="divider">
                         </form><br>
