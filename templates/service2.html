@@ -14,6 +14,30 @@
 $(document).ready(function () {
     $(".button-collapse").sideNav();
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const timers = document.querySelectorAll(".countdown-timer");
+
+  timers.forEach(timer => {
+      let secondsLeft = parseInt(timer.getAttribute("data-seconds"));
+
+      const updateDisplay = () => {
+          if (secondsLeft <= 0) {
+              timer.textContent = "Expired";
+              timer.classList.add("red-text", "text-lighten-2", "expired");
+              return;
+          }
+
+          const minutes = Math.floor(secondsLeft / 60);
+          const seconds = secondsLeft % 60;
+          timer.textContent = `${minutes}m ${seconds}s`;
+          secondsLeft--;
+      };
+
+      updateDisplay();
+      setInterval(updateDisplay, 1000);
+  });
+});
 </script>
 </head>
 <body> 
@@ -61,7 +85,9 @@ $(document).ready(function () {
                         <form action="/delete/{{ items.id }}/" method="post">
                             {% csrf_token %}
                             <p>{{ items.content }}</p><br>
-                            <p>Time Left: {{ items.time_left }} minute{{ items.time_left|pluralize }}</p>
+                            <p>Time Left: 
+                              <span class="countdown-timer" data-seconds="{{ items.time_left }}"></span>
+                            </p>
                             <input type="submit" value="Delete" class="btn red accent-3">
                             <hr class="divider">
                         </form><br>

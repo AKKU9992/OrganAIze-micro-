@@ -15,6 +15,30 @@
 $(document).ready(function () {
     $(".button-collapse").sideNav();
 });
+$(document).ready(function () {
+  {% for items_week in dataweek %}
+      var secondsLeft{{ forloop.counter0 }} = {{ items_week.time_left_seconds_val }};
+      var countdownElem{{ forloop.counter0 }} = document.querySelector("#countdown-{{ forloop.counter0 }} span");
+
+      function updateCountdown{{ forloop.counter0 }}() {
+          if (secondsLeft{{ forloop.counter0 }} <= 0) {
+              countdownElem{{ forloop.counter0 }}.innerText = "Expired";
+              return;
+          }
+
+          var days = Math.floor(secondsLeft{{ forloop.counter0 }} / (24 * 3600));
+          var hours = Math.floor((secondsLeft{{ forloop.counter0 }} % (24 * 3600)) / 3600);
+          var minutes = Math.floor((secondsLeft{{ forloop.counter0 }} % 3600) / 60);
+          var seconds = secondsLeft{{ forloop.counter0 }} % 60;
+
+          countdownElem{{ forloop.counter0 }}.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+          secondsLeft{{ forloop.counter0 }}--;
+          setTimeout(updateCountdown{{ forloop.counter0 }}, 1000);
+      }
+
+      updateCountdown{{ forloop.counter0 }}();
+  {% endfor %}
+});
 </script>
 </head>
 <body> 
@@ -60,8 +84,8 @@ $(document).ready(function () {
                         {% for items_week in dataweek %}
                         <form action="/deleteweek/{{ items_week.id }}/" method="post">
                             {% csrf_token %}
-                            <p>{{ items_week.content_week }}</p><br>
-                            <p>Time Left: {{ items_week.days_left }} day{{ items_week.days_left|pluralize }}</p>
+                            <p>{{ items_week.content_week }}</p>
+                            <p id="countdown-{{ forloop.counter0 }}">Time Left: <span></span></p>
                             <input type="submit" value="Delete" class="btn red accent-3">
                             <hr class="divider">
                         </form><br>

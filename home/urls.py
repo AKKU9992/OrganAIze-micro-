@@ -17,5 +17,5 @@ urlpatterns = [
     path('delete/<int:todo_id>/', views.deleteItem, name='delete'),
     path('deleteweek/<int:todoweek_id>/', views.deleteweek, name='deleteweek'),
     path('deletemonth/<int:todomonth_id>/', views.deletemonth, name='deletemonth'),
-    # path('task/<int:task_id>/', views.task_detail, name='task_detail')
+
 ]

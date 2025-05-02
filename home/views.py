@@ -43,21 +43,22 @@ def deleteItem(request, todo_id):
 
 
 def week(request):
-    dataweek = todoweek.objects.all()
+    dataweek = todoweek.objects.all().order_by('-created_at')
     for item in dataweek:
-        end_date = item.created_at + timedelta(days=item.duration_days)
-        item.days_left = (end_date - timezone.now()).days  # FIXED LINE
-        item.days_left = max(item.days_left, 0)  # Ensure no negative values
-
+        item.time_left_seconds_val = item.time_left_seconds()
     return render(request, 'week.html', {'dataweek': dataweek})
 def addweek(request):
     if request.method == 'POST':
-        content = request.POST['content_week']
+        content_week = request.POST['content_week']
         task = request.POST['task']
-        duration = int(request.POST['duration_days'])
-        todo_items = todoweek(content_week=content, task=task, duration_days=duration)
-        todo_items.save()
-    return redirect('week')
+        duration_days = int(request.POST['duration_days'])
+
+        # Set a default value for 'completed' if it's not provided
+        completed = False  # or request.POST.get('completed', False)
+
+        todo_week = todoweek(content_week=content_week, task=task, duration_days=duration_days, completed=completed)
+        todo_week.save()
+        return redirect('week')  # Redirect after saving
 
 def deleteweek(request, todoweek_id):
     item = todoweek.objects.get(id=todoweek_id)
@@ -66,13 +67,10 @@ def deleteweek(request, todoweek_id):
 
 
 def month(request):
-    datamonth = todomonth.objects.all()
+    datamonth = todomonth.objects.all().order_by('-created_at')
     for item in datamonth:
-        end_date = item.created_at + timedelta(days=item.duration_days)
-        item.days_left = (end_date - timezone.now()).days
-        item.days_left = max(item.days_left, 0)
+        item.time_left_seconds_val = item.time_left_seconds()
     return render(request, 'month.html', {'datamonth': datamonth})
-
 def addmonth(request):
     if request.method == 'POST':
         content = request.POST['content_month']  # Task name (content for the month)
