@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Task</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #a3c9e2; /* Light pastel blue */
+            padding: 4rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+        }
+        .title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+        }
+        .organAIze {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #ff5c57, #ff9d00, #3498db); /* Red, Orange, Blue */
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+        }
+        .AI {
+            font-size: 4rem; /* Enlarging AI */
+            color: #e74c3c; /* Red color */
+            font-weight: bold;
+        }
+        h1 {
+            margin-bottom: 2rem;
+            color: #2c3e50;
+            font-size: 3rem;
+            background: linear-gradient(to right, #ff5c57, #ff9d00, #3498db); /* Red, Orange, Blue */
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+        form {
+            text-align: left;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .back-link {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 2rem;
+            display: inline-block;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="title">
+            <span class="organAIze">Organ<span class="AI">AI</span>ze</span>
+        </div>
+
+        <h1>Plan It!</h1>
+        
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save Task</button>
+        </form>
+
+        <br>
+        <a href="/task" class="back-link">Back to Task List</a>
+
+        <!-- Error message display -->
+        {% if error_message %}
+        <div class="error-message">{{ error_message }}</div>
+        {% endif %}
+    </div>
+
+</body>
+</html>

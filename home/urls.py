@@ -17,5 +17,7 @@ urlpatterns = [
     path('delete/<int:todo_id>/', views.deleteItem, name='delete'),
     path('deleteweek/<int:todoweek_id>/', views.deleteweek, name='deleteweek'),
     path('deletemonth/<int:todomonth_id>/', views.deletemonth, name='deletemonth'),
-
+    path('task/',views.task_list,name='list'),
+    path('create/', views.task_create, name='task_create'),
+    path('done/<int:task_id>/', views.mark_as_done, name='mark_as_done'),
 ]

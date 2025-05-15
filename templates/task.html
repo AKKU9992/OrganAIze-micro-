@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}task 1{% endblock %}
+
+{% block body %}
+<div style="font-family: Arial, sans-serif; background: linear-gradient(to right, #0f2027, #203a43, #2c5364); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0;">
+    <div style="background: white; padding: 4rem; border-radius: 12px; box-shadow: 0 4px 30px rgba(0,0,0,0.3); width: 90%; max-width: 800px; text-align: center;">
+        
+        <!-- OrganAIze title with styling -->
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 2.5rem; margin-bottom: 2rem; color: #2c3e50;">
+            <span style="font-size: 3rem; font-weight: bold; background: linear-gradient(to right, #ff5c57, #ff9d00, #3498db); -webkit-background-clip: text; color: transparent; letter-spacing: 2px;">Organ<span style="font-size: 4rem; color: #e74c3c; font-weight: bold;">AI</span>ze</span>
+        </div>
+
+        <h1>Task List</h1>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+            <thead>
+                <tr style="background-color: #f2f2f2;">
+                    <th style="padding: 12px; border: 1px solid #ddd;">Title</th>
+                    <th  style="padding: 12px; border: 1px solid #ddd;">Description</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Due Date</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Priority</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Completed</th>
+                    <th style="padding: 12px; border: 1px solid #ddd;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ task.title }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ task.description }}</td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">{{ task.due_date|date:"Y-m-d" }}</td> <!-- Format the due date -->
+                    <td style="padding: 10px; border: 1px solid #ddd;">
+                        {% if task.priority == 1 %}
+                            High
+                        {% elif task.priority == 2 %}
+                            Medium
+                        {% else %}
+                            Low
+                        {% endif %}
+                    </td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">
+                        {% if task.completed %}
+                            Yes
+                        {% else %}
+                            No
+                        {% endif %}
+                    </td>
+                    <td style="padding: 10px; border: 1px solid #ddd;">
+                        {% if not task.completed %}
+                            <a href="{% url 'mark_as_done' task.id %}" style="color: green; text-decoration: none; font-weight: bold;">Mark as Done</a>
+                        {% else %}
+                            <span class="completed" style="color: gray; font-weight: bold;">Completed</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <br>
+        <a href="{% url 'task_create' %}" style="color: #3498db; text-decoration: none; font-weight: bold;">Create New Task</a>
+
+        <!-- Error message display -->
+        {% if error_message %}
+        <div style="color: red; font-weight: bold; margin-top: 1rem;">{{ error_message }}</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

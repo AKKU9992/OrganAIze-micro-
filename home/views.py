@@ -2,18 +2,54 @@ from django.shortcuts import render,HttpResponse,redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import logout,authenticate,login
 from datetime import datetime, timedelta
-from home.models import Contact
+from home.models import Contact,PriorityTask
 from django.contrib import messages
 from home.models import Task, Subtask
-from home.utils import generate_subtasks_from_api
 from django.shortcuts import get_object_or_404
 import requests
+from home.forms import TaskForm
 from django.conf import settings
 from home.models import todo, todomonth, todoweek
 now = datetime.now()
 from django.utils import timezone
-
+from datetime import date
 now = timezone.now()
+
+def task_create(request):
+    if request.method == "POST":
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            task = form.save(commit=False)
+            if not task.priority:
+                task.priority = 'Low'
+            task.save()
+            return redirect('list')
+    else:
+        form = TaskForm()
+    return render(request, 'task_create.html', {'form': form})
+
+
+def task_list(request):
+    priority_order = {'High': 0, 'Medium': 1, 'Low': 2}
+    tasks = sorted(
+        PriorityTask.objects.all(),
+        key=lambda t: (priority_order.get(t.priority, 0), t.due_date if t.due_date else date.max)
+    )
+    return render(request, 'task.html', {'tasks': tasks})
+
+
+def mark_as_done(request, task_id):
+    task = get_object_or_404(PriorityTask, id=task_id)
+    task.completed = True
+    task.save()
+    return redirect('list')
+
+
+
+
+
+
+
 def service2(request):
     # Fetch all daily tasks
     data = todo.objects.all()

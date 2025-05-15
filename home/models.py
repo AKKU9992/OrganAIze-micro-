@@ -1,9 +1,27 @@
 from django.db import models
 from datetime import timedelta
-from django.utils import timezone  
+from django.utils import timezone 
+import datetime 
 # makemigrations - create changes and store in a File 
 # migrate- apply the pending changes creaded by makemigrations
 # Create your models here.
+class PriorityTask(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    due_date = models.DateField(null=True, blank=True)
+    completed = models.BooleanField(default=False)
+    priority = models.CharField(
+        max_length=10,
+        choices=[('Low', 'Low'), ('Medium', 'Medium'), ('High', 'High')],
+        default='Low'
+    )
+
+    def __str__(self):
+        return self.title
+
+    def is_overdue(self):
+        return self.due_date and self.due_date < datetime.date.today() and not self.completed
+
 class Contact(models.Model):
     name= models.CharField(max_length=122)
     phone=models.CharField(max_length=12)
